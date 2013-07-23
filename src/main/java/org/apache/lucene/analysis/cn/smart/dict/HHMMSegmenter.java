@@ -49,6 +49,11 @@ public class HHMMSegmenter {
 				frequency = wordDict.getFrequency(charArray);
 				token = new SegToken(charArray, i, j, WordType.CHINESE_WORD, frequency);
 				segGraph.addToken(token);
+				
+				foundIndex = wordDict.getPrefixMatch(charArray);
+				while (j <= length && foundIndex != -1) {
+					
+				}
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 package org.apache.lucene.analysis.cn.smart;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.lucene.analysis.Token;
@@ -49,7 +50,7 @@ public class WordSegmenter {
 	 *            token类型，默认应该是word
 	 * @return
 	 */
-	public Token converSegToken(SegToken st, String sentence,
+	public Token convertSegToken(SegToken st, String sentence,
 			int sentenceStartOffset, String type) {
 		Token result;
 		switch (st.wordType) {

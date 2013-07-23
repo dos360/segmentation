@@ -111,8 +111,8 @@ public class SmartChineseAnalyzer extends Analyzer {
 	@Override
 	public TokenStream tokenStream(String fieldName, Reader reader) {
 		TokenStream result = new SentenceTokenizer(reader);
-//		result = new WordTokenizer(result, wordSegment);
-		// result = new LowerCaseFilter(result);
+		result = new WordTokenizer(result, wordSegment);
+//		 result = new LowerCaseFilter(result);
 		// 不再需要LowerCaseFilter，因为SegTokenFilter已经将所有英文字符转换成小写
 		// stem太严格了, This is not bug, this feature:)
 		result = new PorterStemFilter(result);

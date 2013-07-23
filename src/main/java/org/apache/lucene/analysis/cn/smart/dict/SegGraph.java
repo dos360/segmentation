@@ -1,5 +1,6 @@
 package org.apache.lucene.analysis.cn.smart.dict;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,8 +50,74 @@ public class SegGraph {
 		while (count < size) {
 			if (isStartExist(s)) {
 				tokenList = tokenListTable.get(s);
+				for (SegToken st : tokenList) {
+					st.index = index;
+					result.add(st);
+					index++;
+				}
+				count ++;
 			}
+			s ++;
 		}
+		return result;
+	}
+	
+	/**
+	 * 向Map中增加一个Token，这些Token按照相同startOffset放在同一个列表中，
+	 * 
+	 * @param token
+	 */
+	public void addToken(SegToken token) {
+		int s = token.startOffset;
+		if (!isStartExist(s)) {
+			ArrayList<SegToken> newList = new ArrayList<SegToken>();
+			newList.add(token);
+			tokenListTable.put(s, newList);
+		} else
+			tokenListTable.get(s).add(token);
+		if (s > maxStart)
+			maxStart = s;
+	}
+	
+	/**
+	 * 获取SegGraph中不同起始（Start）位置Token类的个数，每个开始位置可能有多个Token，因此位置数与Token数并不一致
+	 * 
+	 * @return
+	 */
+	public int getStartCount() {
+		return tokenListTable.size();
+	}
+	
+	/**
+	 * 将Map中存储的所有Token按照起始位置从小到大的方式组成一个列表
+	 * 
+	 * @return
+	 */
+	public List<SegToken> toTokenList() {
+		List<SegToken> result = new ArrayList<SegToken>();
+		int s = -1, count = 0, size = tokenListTable.size();
+		List<SegToken> tokenList;
+		
+		while (count < size) {
+			if (isStartExist(s)) {
+				tokenList = tokenListTable.get(s);
+				for (SegToken st : tokenList)
+					result.add(st);
+				count++;
+			}
+			s++;
+		}
+		return result;
+	}
+	
+	public String toString() {
+		List<SegToken> tokenList = this.toTokenList();
+		StringBuffer sb = new StringBuffer();
+		for (SegToken st : tokenList) {
+			sb.append(st + "\n");
+		}
+		return sb.toString();
+		
 	}
 
 }

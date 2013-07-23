@@ -6,7 +6,6 @@ public class PathNode implements Comparable<PathNode> {
 	
 	public int preNode;
 
-	@Override
 	public int compareTo(PathNode p) {
 		if (weight < p.weight)
 			return -1;
